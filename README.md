@@ -10,6 +10,12 @@
 # SimpleGenerator
 Simple Go-file generator. No syntax checking. Autostyling.
 
+## INSTALL
+
+```bash
+go get -u github.com/Bookshelf-Writer/SimpleGenerator
+```
+
 ---
 
 ## INITIALIZATION
