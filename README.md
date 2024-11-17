@@ -1,2 +1,245 @@
+![Fork GitHub Release](https://img.shields.io/github/v/release/Bookshelf-Writer/SimpleGenerator)
+![Tests](https://github.com/Bookshelf-Writer/SimpleGenerator/actions/workflows/go-test.yml/badge.svg)
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/Bookshelf-Writer/SimpleGenerator)](https://goreportcard.com/report/github.com/Bookshelf-Writer/SimpleGenerator)
+
+![GitHub repo file or directory count](https://img.shields.io/github/directory-file-count/Bookshelf-Writer/SimpleGenerator?color=orange)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Bookshelf-Writer/SimpleGenerator?color=green)
+![GitHub repo size](https://img.shields.io/github/repo-size/Bookshelf-Writer/SimpleGenerator)
+
 # SimpleGenerator
 Simple Go-file generator. No syntax checking. Autostyling.
+
+---
+
+## Инициализация
+
+методы:
+- [generator.go](generator.go)
+
+### NewFile(packageName)
+
+```
+var obj *GeneratorObj = NewFile("package_name")
+```
+
+Инициализация по имени пакета. Директория по умолчанию - точка запуска.
+
+### NewFilePath(packagePath)
+
+```
+var obj *GeneratorObj = NewFilePath("package/path/name")
+```
+
+Инициализация по пути к директории. Имя последней директории - название пакета.
+
+### NewFilePathName(packagePath, packageName)
+
+```
+var obj *GeneratorObj = NewFilePathName("package_name", "package/path/name")
+```
+
+Инициализация по пути к директории c указанием пользовательского названия пакета.
+
+---
+
+## Импорт
+
+методы:
+- [generator.go](generator.go)
+- [types.go](types.go)
+
+### NewImport(path, alias)
+
+```
+var path string = obj.NewImport("github.com/dave/jennifer/jen", "")
+```
+
+Добавление нового импорта с возможностью указать алиас.
+Алиасы `_` и `.` на данный момент не поддерживаются.
+
+### NewTypeImport(path, name)
+
+```
+var JenFileType *GeneratorUserTypeObj = obj.NewTypeImport("github.com/dave/jennifer/jen", "File")
+```
+
+Инициализация конкретного типа из импорта.
+Если ранее пакет с подобным путем не был инициализирован - инициализация произойдет автоматически.
+
+### NewType(name)
+
+```
+var GlobalTypeNameType *GeneratorUserTypeObj = obj.NewType("GlobalTypeName")
+```
+
+Инициализация стороннего типа, видимого в пределах пакета.
+
+### AddType(name, interface)
+
+```
+var NewLocalType *GeneratorUserTypeObj = obj.AddType("NewLocal", byte(0))
+```
+
+Инициализация локального типа с указанием базового типа.
+Добавляет данный тип в генерацию если ранее этот тип не инициализировался.
+
+---
+
+### Пример
+
+##### Генератор:
+```go
+
+var obj = SimpleGenerator.NewFilePathName("example", "main")
+
+func main() {
+	obj.NewImport("github.com/dave/jennifer/jen", "exAlias")
+
+	jenFile := obj.NewTypeImport("github.com/dave/jennifer/jen", "File")
+	timeDuration := obj.NewTypeImport("time", "Duration")
+
+	//
+
+	obj.Comment("Инициализация простых констант")
+	obj.AddConst(map[string]SimpleGenerator.GeneratorValueObj{
+		"testConst1": {Val: 1234, Types: timeDuration, Comment: jenFile.Name()},
+		"testConst2": {Val: "text", Types: obj.TypeString(), Format: ""},
+	})
+
+	obj.Comment("Инициализация структуры")
+	testStruct := obj.AddStruct("testStruct", map[string]SimpleGenerator.GeneratorTypeObj{
+		"ttt1": {Types: jenFile, IsLink: true},
+		"ttt2": {Types: timeDuration, IsArray: 4},
+	})
+
+	obj.Comment("Создание простой функции")
+	obj.AddFunc(
+		"TestFunc",
+		map[string]SimpleGenerator.GeneratorTypeObj{
+			"name": {Types: obj.TypeString()},
+		},
+		map[string]SimpleGenerator.GeneratorTypeObj{
+			"err": {Types: obj.TypeError()},
+		},
+		testStruct,
+		func(gen *SimpleGenerator.GeneratorObj) {
+			gen.PrintLN("if name == testConst2 {")
+			gen.Offset(1).WriteString("err = parent.ttt1.Save(name)").LN()
+			gen.PrintLN("}")
+		},
+		func(gen *SimpleGenerator.GeneratorObj) {
+			gen.LN().AddConst(map[string]SimpleGenerator.GeneratorValueObj{
+				"funcConst": {Val: "text", Types: gen.TypeString(), Format: ""},
+			})
+		},
+	)
+
+	obj.SeparatorX8().LN()
+
+	obj.Comment("Инициализация простой карты")
+	obj.AddMap("exList", obj.TypeString(), obj.TypeBool(), map[SimpleGenerator.GeneratorValueObj]SimpleGenerator.GeneratorValueObj{
+		{Val: "1", Format: ""}: {Val: true},
+		{Val: "3", Format: ""}: {Val: true},
+		{Val: "2", Format: ""}: {Val: false, Comment: "hello"},
+	})
+
+	obj.SeparatorX8().LN()
+
+	obj.Comment("Cоздание ENUM-подобной структуры")
+	obj.ConstructEnum("User", "Users", byte(0), map[string]SimpleGenerator.GeneratorValueObj{
+		"Def":    {Val: 0},
+		"Su":     {Val: 3, Comment: "superuser"},
+		"Normal": {Val: 1},
+		"Admin":  {Val: 2},
+	})
+
+	obj.SeparatorX8().LN()
+
+	obj.AddValue(map[string]SimpleGenerator.GeneratorValueObj{
+		"Ok":    {Val: "1", Types: obj.TypeString(), Format: ""},
+		"NotOk": {Val: 1, Types: obj.TypeString(), Format: ""},
+	})
+
+	//
+
+	for p, err := range obj.Errors() {
+		fmt.Println(p, "\t", err)
+	}
+	fmt.Println(obj.Save("GENERATE.go"))
+}
+```
+
+##### Сгенерированный код:
+```go
+/**  This file is automatically generated  **/
+/**  File generator: main.go:85  **/
+
+package main
+
+import (
+	exAlias "github.com/dave/jennifer/jen"
+	"time"
+)
+
+////////////////////////////////////////////////////////////////
+
+// Инициализация простых констант
+const (
+	testConst1 time.Duration = 1234 // exAlias.File
+	testConst2 string        = "text"
+)
+
+// Инициализация структуры
+type testStructObj struct {
+	ttt1 *exAlias.File
+	ttt2 [4]time.Duration
+}
+
+// Создание простой функции
+func (parent *testStructObj) TestFunc(name string) (err error) {
+	if name == testConst2 {
+		err = parent.ttt1.Save(name)
+	}
+
+	const funcConst string = "text"
+
+	return
+}
+
+////////////////////////////////
+
+// Инициализация простой карты
+var exListMap = map[string]bool{
+	"1": true,
+	"2": false, // hello
+	"3": true,
+}
+
+////////////////////////////////
+
+// Cоздание ENUM-подобной структуры
+type UsersType uint8
+
+const (
+	UserDef    UsersType = 0
+	UserNormal UsersType = 1
+	UserAdmin  UsersType = 2
+	UserSu     UsersType = 3 // superuser
+)
+
+////////////////////////////////
+
+var (
+	NotOk string = "%!s(int=1)"
+	Ok    string = "1"
+)
+```
+
+---
+
+---
+
+### Mirrors
+
+- https://git.bookshelf-writer.fun/Bookshelf-Writer/SimpleGenerator
