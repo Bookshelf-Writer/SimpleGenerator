@@ -101,19 +101,19 @@ func main() {
 
 	//
 
-	obj.Comment("Инициализация простых констант")
+	obj.Comment("Initializing simple constants")
 	obj.AddConst(map[string]SimpleGenerator.GeneratorValueObj{
 		"testConst1": {Val: 1234, Types: timeDuration, Comment: jenFile.Name()},
 		"testConst2": {Val: "text", Types: obj.TypeString(), Format: ""},
 	})
 
-	obj.Comment("Инициализация структуры")
+	obj.Comment("Initializing structure")
 	testStruct := obj.AddStruct("testStruct", map[string]SimpleGenerator.GeneratorTypeObj{
 		"ttt1": {Types: jenFile, IsLink: true},
 		"ttt2": {Types: timeDuration, IsArray: 4},
 	})
 
-	obj.Comment("Создание простой функции")
+	obj.Comment("Creating a Function")
 	obj.AddFunc(
 		"TestFunc",
 		map[string]SimpleGenerator.GeneratorTypeObj{
@@ -137,7 +137,7 @@ func main() {
 
 	obj.SeparatorX8().LN()
 
-	obj.Comment("Инициализация простой карты")
+	obj.Comment("Initializing a map")
 	obj.AddMap("exList", obj.TypeString(), obj.TypeBool(), map[SimpleGenerator.GeneratorValueObj]SimpleGenerator.GeneratorValueObj{
 		{Val: "1", Format: ""}: {Val: true},
 		{Val: "3", Format: ""}: {Val: true},
@@ -146,7 +146,7 @@ func main() {
 
 	obj.SeparatorX8().LN()
 
-	obj.Comment("Cоздание ENUM-подобной структуры")
+	obj.Comment("Creating an ENUM-like structure")
 	obj.ConstructEnum("User", "Users", byte(0), map[string]SimpleGenerator.GeneratorValueObj{
 		"Def":    {Val: 0},
 		"Su":     {Val: 3, Comment: "superuser"},
@@ -184,19 +184,19 @@ import (
 
 ////////////////////////////////////////////////////////////////
 
-// Инициализация простых констант
+// Initializing simple constants
 const (
 	testConst1 time.Duration = 1234 // exAlias.File
 	testConst2 string        = "text"
 )
 
-// Инициализация структуры
+// Initializing structure
 type testStructObj struct {
 	ttt1 *exAlias.File
 	ttt2 [4]time.Duration
 }
 
-// Создание простой функции
+// Creating a Function
 func (parent *testStructObj) TestFunc(name string) (err error) {
 	if name == testConst2 {
 		err = parent.ttt1.Save(name)
@@ -209,7 +209,7 @@ func (parent *testStructObj) TestFunc(name string) (err error) {
 
 ////////////////////////////////
 
-// Инициализация простой карты
+// Initializing a map
 var exListMap = map[string]bool{
 	"1": true,
 	"2": false, // hello
@@ -218,7 +218,7 @@ var exListMap = map[string]bool{
 
 ////////////////////////////////
 
-// Cоздание ENUM-подобной структуры
+// Creating an ENUM-like structure
 type UsersType uint8
 
 const (
