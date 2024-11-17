@@ -66,10 +66,12 @@ func (gen *GeneratorObj) addVals(name string, vals map[string]GeneratorValueObj)
 
 //
 
+// AddValue Adding an Array of Variables
 func (gen *GeneratorObj) AddValue(vals map[string]GeneratorValueObj) *GeneratorObj {
 	return gen.addVals("var", vals)
 }
 
+// AddConst Adding an Array of Constants
 func (gen *GeneratorObj) AddConst(vals map[string]GeneratorValueObj) *GeneratorObj {
 	return gen.addVals("const", vals)
 }
@@ -127,16 +129,19 @@ func (gen *GeneratorObj) addStructs(name, fName string, vals map[string]Generato
 
 //
 
+// AddStruct Adding a structure description based on an array of variables
 func (gen *GeneratorObj) AddStruct(name string, vals map[string]GeneratorTypeObj) *GeneratorUserTypeObj {
 	return gen.addStructs("struct", name, vals)
 }
 
+// AddInterface Adding an interface description using an array of variables
 func (gen *GeneratorObj) AddInterface(name string, vals map[string]GeneratorTypeObj) *GeneratorUserTypeObj {
 	return gen.addStructs("interface", name, vals)
 }
 
 ////
 
+// AddFunc Adding a Method
 func (gen *GeneratorObj) AddFunc(
 	name string,
 	input, output map[string]GeneratorTypeObj,
@@ -185,6 +190,7 @@ func (gen *GeneratorObj) AddFunc(
 
 ////
 
+// AddMap Adding a map by array of values
 func (gen *GeneratorObj) AddMap(
 	name string,
 	key, element *GeneratorUserTypeObj,
