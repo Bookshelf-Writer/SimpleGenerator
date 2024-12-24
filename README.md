@@ -90,6 +90,24 @@ var NewLocalType *GeneratorUserTypeObj = obj.AddType("NewLocal", byte(0))
 Initialize a local type by specifying the base type.
 Adds this type to the generation if this type has not been initialized previously.
 
+### AddObjStruct(interface)
+
+```
+obj.AddObjStruct(MyObj)
+```
+
+Recursively forms a structure based on the passed object.
+Does not support any modifiers, sorting the output alphabetically. 
+
+### AddObjValue(name, interface)
+
+```
+obj.AddObjValue("ValueNameObj", ValueNameObj)
+```
+
+It recursively goes through the structure and forms a data object. 
+All basic types and nesting of non-standard ones are supported.
+
 ---
 
 ## EXAMPLE
