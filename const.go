@@ -1,7 +1,7 @@
 package SimpleGenerator
 
 const (
-	 GlobalName string = "SimpleGenerator"
+   GlobalName string = "SimpleGenerator"
 	 GlobalDateUpdate string = "11-17-2024"
 	 GlobalHash string = "79965a327922472e584d4a873f9894fdd4aa4eb0"
 

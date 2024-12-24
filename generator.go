@@ -8,11 +8,10 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
 )
 
-////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////
 
 func NewFile(packageName string) *GeneratorObj {
 	path, _ := os.Getwd()
@@ -32,7 +31,7 @@ func NewFilePathName(packagePath, packageName string) *GeneratorObj {
 	return obj
 }
 
-////////
+// //////
 
 func (gen *GeneratorObj) Render(w io.Writer) (err error) {
 	write := func(b []byte) {
@@ -74,10 +73,6 @@ func (gen *GeneratorObj) Render(w io.Writer) (err error) {
 func (gen *GeneratorObj) Save(filename string) error {
 	var buf bytes.Buffer
 
-	_, ff, ll, ok := runtime.Caller(1)
-	if ok {
-		buf.Write([]byte(fmt.Sprintf("/**  File generator: %s:%d  **/\n", filepath.Base(ff), ll)))
-	}
 	if err := gen.Render(&buf); err != nil {
 		return err
 	}
@@ -93,7 +88,7 @@ func (gen *GeneratorObj) Save(filename string) error {
 	return nil
 }
 
-////////
+// //////
 
 func (gen *GeneratorObj) NewImport(path, alias string) string {
 	_, ok := gen.imports[path]
