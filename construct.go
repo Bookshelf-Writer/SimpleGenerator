@@ -30,22 +30,22 @@ func (gen *GeneratorObj) SeparatorX4() *GeneratorObj {
 }
 
 func (gen *GeneratorObj) SeparatorX5() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("// ", 10))
+	gen.PrintLN("/* " + strings.Repeat("#", 10) + " */")
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX6() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("// ", 12))
+	gen.PrintLN("/* " + strings.Repeat("#", 12) + " */")
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX7() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("// ", 14))
+	gen.PrintLN("/* " + strings.Repeat("#", 14) + " */")
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX8() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("// ", 16))
+	gen.PrintLN("/* " + strings.Repeat("#", 16) + " */")
 	return gen
 }
 
