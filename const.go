@@ -2,11 +2,11 @@ package SimpleGenerator
 
 const (
 	 GlobalName string = "SimpleGenerator"
-	 GlobalDateUpdate string = "12-24-2024"
-	 GlobalHash string = "98bc1325a8d6ae36bbd9e2039ace164f9d8336da"
+	 GlobalDateUpdate string = "01-13-2025"
+	 GlobalHash string = "bfdafb8a8f3a572d21c7fbf55becc6fce5d906e3"
 
-	 GlobalVersion string = "v0.4.0"
+	 GlobalVersion string = "v0.5.0"
 	 GlobalVersionMajor string = "v0"
-	 GlobalVersionMinor uint16 = 4
+	 GlobalVersionMinor uint16 = 5
 	 GlobalVersionPatch uint16 = 0
 )
