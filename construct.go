@@ -7,49 +7,49 @@ import (
 	"strings"
 )
 
-////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////
 
 func (gen *GeneratorObj) SeparatorX1() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("//", 2))
+	gen.PrintLN(strings.Repeat("// ", 2))
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX2() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("//", 4))
+	gen.PrintLN(strings.Repeat("// ", 4))
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX3() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("//", 6))
+	gen.PrintLN(strings.Repeat("// ", 6))
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX4() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("//", 8))
+	gen.PrintLN(strings.Repeat("// ", 8))
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX5() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("//", 10))
+	gen.PrintLN(strings.Repeat("// ", 10))
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX6() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("//", 12))
+	gen.PrintLN(strings.Repeat("// ", 12))
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX7() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("//", 14))
+	gen.PrintLN(strings.Repeat("// ", 14))
 	return gen
 }
 
 func (gen *GeneratorObj) SeparatorX8() *GeneratorObj {
-	gen.PrintLN(strings.Repeat("//", 16))
+	gen.PrintLN(strings.Repeat("// ", 16))
 	return gen
 }
 
-////
+// //
 
 func (gen *GeneratorObj) ConstructEnum(
 	name string,
