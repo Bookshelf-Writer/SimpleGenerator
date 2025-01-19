@@ -57,7 +57,7 @@ func (gen *GeneratorObj) Render(w io.Writer) (err error) {
 		write([]byte(")\n\n"))
 	}
 
-	write([]byte(strings.Repeat("//", 32) + "\n\n"))
+	write([]byte(strings.Repeat("// ", 18) + "\n\n"))
 
 	if err != nil {
 		return err

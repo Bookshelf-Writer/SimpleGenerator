@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////
 
 func (gen *GeneratorObj) addVals(name string, vals map[string]GeneratorValueObj) *GeneratorObj {
 	l := len(vals)
@@ -32,13 +32,7 @@ func (gen *GeneratorObj) addVals(name string, vals map[string]GeneratorValueObj)
 		gen.PrintLN(name + " (")
 	}
 
-	var buf []string
-	for nameVal, _ := range vals {
-		buf = append(buf, nameVal)
-	}
-	sort.Strings(buf)
-
-	for _, nameVal := range buf {
+	for _, nameVal := range sortMapKey(vals) {
 		if l > 1 {
 			gen.Offset(1)
 		}
@@ -76,7 +70,7 @@ func (gen *GeneratorObj) AddConst(vals map[string]GeneratorValueObj) *GeneratorO
 	return gen.addVals("const", vals)
 }
 
-////
+// //
 
 func (gen *GeneratorObj) addStructs(name, fName string, vals map[string]GeneratorTypeObj) *GeneratorUserTypeObj {
 
@@ -97,13 +91,7 @@ func (gen *GeneratorObj) addStructs(name, fName string, vals map[string]Generato
 
 	gen.PrintLN("type " + t.Name() + " " + name + " {")
 
-	var buf []string
-	for nameVal, _ := range vals {
-		buf = append(buf, nameVal)
-	}
-	sort.Strings(buf)
-
-	for _, nameVal := range buf {
+	for _, nameVal := range sortMapKey(vals) {
 		gen.Offset(1)
 		value := vals[nameVal]
 
@@ -139,7 +127,7 @@ func (gen *GeneratorObj) AddInterface(name string, vals map[string]GeneratorType
 	return gen.addStructs("interface", name, vals)
 }
 
-////
+// //
 
 // AddFunc Adding a Method
 func (gen *GeneratorObj) AddFunc(
@@ -152,7 +140,8 @@ func (gen *GeneratorObj) AddFunc(
 	var bufStringArr []string
 	params := func(m map[string]GeneratorTypeObj) {
 		bufStringArr = []string{}
-		for nameVal, val := range m {
+		for _, nameVal := range sortMapKey(m) {
+			val := m[nameVal]
 			if val.Types == nil {
 				continue
 			}
@@ -188,7 +177,7 @@ func (gen *GeneratorObj) AddFunc(
 	gen.PrintLN("}").LN()
 }
 
-////
+// //
 
 // AddMap Adding a map by array of values
 func (gen *GeneratorObj) AddMap(
