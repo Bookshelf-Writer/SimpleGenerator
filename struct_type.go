@@ -2,12 +2,13 @@ package SimpleGenerator
 
 import "fmt"
 
-////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////
 
 type GeneratorTypeObj struct {
 	Comment string
 
 	Types   *GeneratorUserTypeObj
+	Tags    map[string]string
 	IsLink  bool
 	IsArray int
 }

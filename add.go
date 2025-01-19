@@ -103,6 +103,14 @@ func (gen *GeneratorObj) addStructs(name, fName string, vals map[string]Generato
 
 		//
 
+		if len(value.Tags) > 0 {
+			gen.Print("\t`")
+			for _, tagName := range sortMapKey(value.Tags) {
+				gen.Print(tagName + ":\"" + value.Tags[tagName] + "\",")
+			}
+			gen.Print("`")
+		}
+
 		if value.Comment != "" {
 			gen.Print("\t// " + value.Comment)
 		}
